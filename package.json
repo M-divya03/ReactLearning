@@ -1,0 +1,17 @@
+{
+  "name": "namastereact",
+  "version": "1.0.0",
+  "description": "namste react learning",
+  "scripts": {
+    "start": "parcel index.html"
+  },
+  "author": "divya",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "parcel": "^2.15.4"
+  }
+}
