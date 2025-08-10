@@ -65,3 +65,23 @@
     padding: 0 20px;
     cursor: pointer;
 }
+
+.filter {
+    display: flex;
+    align-items: center; /* vertically centers items */
+    gap: 10px; /* space between the elements */
+    margin: 10px;
+    flex-wrap: wrap; /* optional, wrap to next line on small screens */
+     justify-content: space-between;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.filter-btn {
+    padding: 8px 12px;
+    margin: 0; /* let gap handle spacing */
+}

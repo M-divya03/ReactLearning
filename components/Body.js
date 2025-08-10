@@ -5,7 +5,12 @@ import RestaurantCard from "./RestaurantCard";
 import Shimmer from "./Shimmer";
 
 const Body = () => {
-    const [ListOfRest,setRestList] = useState(restList);
+    const [ListOfRest,setRestList] = useState(restList?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+    const [searchText,setSearchText] = useState("");
+    const [filteredRest,setFilteredRest] = useState(restList?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+
+    console.log("rerendering occurs");
+    console.log(ListOfRest);
 
     useEffect ( () => {
         {console.log("useEffect called");}
@@ -15,14 +20,20 @@ const Body = () => {
 
     const fetchData = async () => {
         const data = await fetch(
-            "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.6126255&lng=77.04108959999999&page_type=DESKTOP_WEB_LISTING"
+            "https://corsproxy.io/https://www.swiggy.com/dapi/restaurants/list/v5?lat=9.920017399999999&lng=78.1205054&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
         );
 
         const json = await data.json();
-        // console.log(json[0].itemResponseList);
-        // setRestList(json[0].itemResponseList);
-        console.log(json?.data?.cards[0]?.data?.data?.cards);
-        setRestList(json?.data?.cards[0]?.data?.data?.cards);
+        console.log(json?.data?.cards[4]?.card.card.gridElements.infoWithStyle.restaurants);
+        setRestList(json?.data?.cards[4]?.card.card.gridElements.infoWithStyle.restaurants);
+        setFilteredRest(json?.data?.cards[4]?.card.card.gridElements.infoWithStyle.restaurants);
+    }
+
+    const filterrestBasedOnSearchText = (searchText,ListOfRest) => {
+        return (ListOfRest.filter((rest) =>
+             rest.info.name.toLowerCase().includes(
+                searchText.toLowerCase()
+            )));
     }
 
     //conditionl rendering
@@ -30,61 +41,40 @@ const Body = () => {
     //     return (<Shimmer />);
     // }
 
-    return ListOfRest.length === 0 ? (<Shimmer /> ) : (
+    return  !ListOfRest || ListOfRest.length === 0 ? (<Shimmer /> ) : (
         <div className="Body">
-           
-            <div className="search">{"search"}              
-            </div>
-           
             <div className="filter">
+                <div className="search">
+                    <input type="text" className="search-box" value={searchText} onChange={(e)=>{
+                        setSearchText(e.target.value)
+                    }}></input>
+                    <button className="searchbtn" onClick={ () =>{
+                        console.log(searchText);
+                        setFilteredRest(filterrestBasedOnSearchText(searchText,ListOfRest));
+                    }}>Search</button>
+                </div>
                 <button 
                     className="filter-btn" 
                     onClick={()=>{
                         const filterTopRest = ListOfRest.filter(
-                            (res) => res.data.avgRating >= 4
+                            (res) => res.info.avgRating >= 4.5
                         );
-                        setRestList(filterTopRest);
+                        setFilteredRest(filterTopRest);
                 }}
                 >
-                Top Rated Restaurants\
+                Top Rated Restaurants
                 </button>
             </div>
            
            <div className="res-container">
                 {
-                    ListOfRest.map((rest) => 
-                    <RestaurantCard key={rest.data.id} resData =  {rest} /> 
+                    filteredRest.map((rest) => 
+                    <RestaurantCard key={rest.info.id} resData =  {rest} /> 
                     )
                 }     
-
-            {/* <RestaurantCard resData = {restList[0]} />
-            <RestaurantCard resData = {restList[1]} />
-            <RestaurantCard resData = {restList[2]} />
-            <RestaurantCard resData = {restList[3]} />
-            <RestaurantCard resData = {restList[4]}/>
-            <RestaurantCard resData = {restList[4]} />
-            <RestaurantCard resData = {restList[5]} /> */}
-
-
-            {/* <RestaurantCard 
-                restName = "KFC" 
-                cuisine = "Finger licking Fast Foods"
-            /> */}
-            {/* <RestaurantCard />
-            <RestaurantCard />
-            <RestaurantCard />
-             <RestaurantCard />
-            <RestaurantCard />
-            <RestaurantCard />
-            <RestaurantCard />
-             <RestaurantCard />
-            <RestaurantCard />
-            <RestaurantCard />
-            <RestaurantCard /> */}
             </div>
         </div>
     );
-
-};
+}
 
 export default Body;
