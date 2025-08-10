@@ -1,12 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import restList from "../utils/mockData";
 import RestaurantCard from "./RestaurantCard";
-
+import Shimmer from "./Shimmer";
 
 const Body = () => {
     const [ListOfRest,setRestList] = useState(restList);
-    return (
+
+    useEffect ( () => {
+        {console.log("useEffect called");}
+        fetchData();
+    }, []
+    );
+
+    const fetchData = async () => {
+        const data = await fetch(
+            "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.6126255&lng=77.04108959999999&page_type=DESKTOP_WEB_LISTING"
+        );
+
+        const json = await data.json();
+        // console.log(json[0].itemResponseList);
+        // setRestList(json[0].itemResponseList);
+        console.log(json?.data?.cards[0]?.data?.data?.cards);
+        setRestList(json?.data?.cards[0]?.data?.data?.cards);
+    }
+
+    //conditionl rendering
+    // if(ListOfRest.length === 0){
+    //     return (<Shimmer />);
+    // }
+
+    return ListOfRest.length === 0 ? (<Shimmer /> ) : (
         <div className="Body">
            
             <div className="search">{"search"}              
