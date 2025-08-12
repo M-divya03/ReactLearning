@@ -3,11 +3,12 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import Header from "../components/Header"
 import Body from "../components/Body";
-import RestaurantCard from "../components/RestaurantCard";  
-
-
-
-
+import About from "../components/About";
+import {createBrowserRouter,Outlet,RouterProvider} from "react-router-dom";
+import Error from "../components/Error";
+import Contact from "../components/Contact";
+import RestaurantMenu from "../components/RestaurantMenu";
+// import { Outlet } from "react-router-dom";
 
 // const resObj =   {
 //     type: "restaurant",
@@ -138,22 +139,41 @@ import RestaurantCard from "../components/RestaurantCard";
 
 // const RestaurantCard = ({resData}) => {
 
-
-
-
-
-
-
 const AppLayout = () => {
     return (
         <div className="app">
             <Header /> 
-            <Body />
+            <Outlet />
         </div>
     );
 };
 
+const routerConfig = createBrowserRouter([
+    {
+        path:"/",
+        element:<AppLayout />,
+        children : [
+            {
+                path:"/",
+                element:<Body />,
+            },
+            {
+            path:"/About",
+            element:<About />,
+            },
+            {
+                path:"/Contact",
+                element:<Contact />
+            },
+            {
+                path:"/restaurant/:id",
+                element:<RestaurantMenu />
+            },
+        ],
+        errorElement:<Error />,
+    }
+]);
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<AppLayout />);
+root.render(<RouterProvider router={routerConfig} />);

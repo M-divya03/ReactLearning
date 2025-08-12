@@ -31,6 +31,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import Body from "./Body";
 import { CDN_URL } from "../utils/constants";
+import { Link } from "react-router-dom";
 
 const RestaurantCard = (props) => {
     const {resData} = props;

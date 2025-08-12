@@ -5,4 +5,10 @@ two imprt hooks
                   -> maintains the sate of the component 
     -> useEffect() -> two argments -> callBack () (arrow fn) &           dependency array 
                 -> call back fn call after initial render
+
+
+#Routing 
+    -Two types
+        1. ClientSide Routing
+        2. ServerSide Routing             
                 
