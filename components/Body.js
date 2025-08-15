@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import restList from "../utils/mockData";
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, {withPromotedLabel} from "./RestaurantCard";
 import useOnlineStatus from "../utils/useOnlineStatus";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
@@ -11,7 +11,7 @@ const Body = () => {
     const [ListOfRest,setRestList] = useState(restList?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
     const [searchText,setSearchText] = useState("");
     const [filteredRest,setFilteredRest] = useState(restList?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
-
+    const RestaurantCardPromoted = withPromotedLabel(RestaurantCard);
     console.log("rerendering occurs");
     console.log(ListOfRest);
 
@@ -78,6 +78,8 @@ const Body = () => {
                     filteredRest.map((rest) => 
                         <Link  key={rest.info.id}
                         to = {"/restaurant/"+ rest.info.id}>
+
+                        rest.data.promoted ? <RestaurantCardPromoted resData = {rest}/> :
                     <RestaurantCard resData =  {rest} /> 
                     </Link>
                     )
@@ -85,6 +87,6 @@ const Body = () => {
             </div>
         </div>
     );
-}
+};
 
 export default Body;
