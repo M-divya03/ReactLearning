@@ -8,6 +8,7 @@ import {createBrowserRouter,Outlet,RouterProvider} from "react-router-dom";
 import Error from "../components/Error";
 import Contact from "../components/Contact";
 import RestaurantMenu from "../components/RestaurantMenu";
+import { DateCounter } from "../udemy/component/DateCounter";
 // import { Outlet } from "react-router-dom";
 
 // const resObj =   {
@@ -171,6 +172,10 @@ const routerConfig = createBrowserRouter([
                 path:"/restaurant/:id",
                 element:<RestaurantMenu />
             },
+            {
+                path:"/dateCounter",
+                element:<DateCounter />
+            },
         ],
         errorElement:<Error />,
     }
@@ -178,4 +183,5 @@ const routerConfig = createBrowserRouter([
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+// root.render(<RouterProvider router={routerConfig} />);
 root.render(<RouterProvider router={routerConfig} />);
